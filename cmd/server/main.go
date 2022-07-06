@@ -1,11 +1,20 @@
 package main
 
 import (
-	"github.com/svetlimladenov/collegesystems/pkg/server"
+	"net/http"
+
+	"github.com/svetlimladenov/collegesystems/routers"
 )
 
 func main() {
-	app := server.NewApp()
+	endpoint := "localhost:8080"
 
-	app.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	router := routers.InitRouter()
+
+	server := http.Server{
+		Addr:    endpoint,
+		Handler: router,
+	}
+
+	server.ListenAndServe()
 }
