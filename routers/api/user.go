@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/svetlimladenov/collegesystems/models"
 	"github.com/svetlimladenov/collegesystems/services"
 )
 
@@ -45,9 +46,17 @@ func Register(c *gin.Context) {
 		return
 	}
 
+	user := models.User{
+		Username:  model.Username,
+		Password:  model.Password,
+		FirstName: model.FirstName,
+		LastName:  model.LastName,
+		Email:     model.Email,
+	}
+
 	us := services.UserService{}
 
-	if err := us.Register(model.Username, model.Password); err != nil {
+	if err := us.Register(user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
